@@ -27,7 +27,7 @@
     --accent-soft: #f2eafd;
     --shadow: 0 2px 8px rgba(20,30,50,.06);
     --pos-동: #2f6fed; --pos-명: #2f8f5b; --pos-형: #c2410c; --pos-부: #7a4fd6; --pos-전: #0e7c86; --pos-숙어: #b8327a;
-    --ko: #8a5a2b;
+    --ko: #8a5a2b; --ex: #0f766e;
     --sec-pron: #2f6fed; --sec-det: #0d7f86; --sec-art: #d0650f;
   }
   @media (prefers-color-scheme: dark) {
@@ -36,7 +36,7 @@
       --primary: #5b8cff; --primary-dark: #7aa2ff; --primary-soft: #1f2b46;
       --good: #4cc488; --good-soft: #17322a; --bad: #ff7a7a; --bad-soft: #3a1f22;
       --accent: #b48cf2; --accent-soft: #2c2340; --shadow: none;
-      --pos-동: #7aa2ff; --pos-명: #5ccf8f; --pos-형: #ff9a5c; --pos-부: #b894f5; --pos-전: #4fc6cf; --pos-숙어: #f07ab6; --ko: #e0b07e; --sec-pron: #4f7fe8; --sec-det: #138d95; --sec-art: #c8640f;
+      --pos-동: #7aa2ff; --pos-명: #5ccf8f; --pos-형: #ff9a5c; --pos-부: #b894f5; --pos-전: #4fc6cf; --pos-숙어: #f07ab6; --ko: #e0b07e; --ex: #5cc4b6; --sec-pron: #4f7fe8; --sec-det: #138d95; --sec-art: #c8640f;
     }
   }
   :root[data-theme="dark"] {
@@ -44,7 +44,7 @@
     --primary: #5b8cff; --primary-dark: #7aa2ff; --primary-soft: #1f2b46;
     --good: #4cc488; --good-soft: #17322a; --bad: #ff7a7a; --bad-soft: #3a1f22;
     --accent: #b48cf2; --accent-soft: #2c2340; --shadow: none;
-    --pos-동: #7aa2ff; --pos-명: #5ccf8f; --pos-형: #ff9a5c; --pos-부: #b894f5; --pos-전: #4fc6cf; --pos-숙어: #f07ab6; --ko: #e0b07e; --sec-pron: #4f7fe8; --sec-det: #138d95; --sec-art: #c8640f;
+    --pos-동: #7aa2ff; --pos-명: #5ccf8f; --pos-형: #ff9a5c; --pos-부: #b894f5; --pos-전: #4fc6cf; --pos-숙어: #f07ab6; --ko: #e0b07e; --ex: #5cc4b6; --sec-pron: #4f7fe8; --sec-det: #138d95; --sec-art: #c8640f;
   }
   /* 배경색 테마 (🎨 버튼) */
   :root[data-theme="cream"] { --bg: #f5efe2; --line: #e6dcc8; --primary-soft: #f3ead6; }
@@ -133,6 +133,7 @@
   .word .m.hidden * { visibility: hidden; }
   .word .exl { grid-column: 2 / 3; font-size: 15px; margin-top: 1px; }
   .hw { color: var(--primary); }
+  .exl .en, .card-ex .en, .q-ex .en { color: var(--ex); }
   .exko { color: var(--ko); font-size: 14px; }
   .word .exko.hidden { color: transparent; background: var(--bg); border-radius: 5px; cursor: pointer; user-select: none; }
   .card-ex { margin-top: 12px; font-size: 17px; }
@@ -262,7 +263,7 @@
     :root, :root[data-theme] {
       --bg: #ffffff; --card: #ffffff; --text: #1d2330; --muted: #5b6270; --line: #d5dae2;
       --primary: #2f6fed; --primary-soft: #eaf1ff; --good: #1f8a52; --bad: #d64545; --bad-soft: #fdeaea;
-      --star: #f0a020; --accent: #8a4fd6; --ko: #8a5a2b; --shadow: none;
+      --star: #f0a020; --accent: #8a4fd6; --ko: #8a5a2b; --ex: #0f766e; --shadow: none;
       --sec-pron: #2f6fed; --sec-det: #0d7f86; --sec-art: #d0650f;
     }
     * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
