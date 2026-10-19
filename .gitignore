@@ -1,0 +1,12 @@
+# 비밀 정보
+.env
+.env.*
+*.key
+*.pem
+
+# 운영체제 / 편집기
+Thumbs.db
+Desktop.ini
+.DS_Store
+.vscode/
+.claude/
