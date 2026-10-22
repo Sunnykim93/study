@@ -8,22 +8,23 @@ GitHub Pages로 배포되는 정적 웹앱 2개. 서버·빌드 도구·외부 �
 
 | 앱 | 파일 | 주소 |
 |---|---|---|
-| 시작 페이지 | `index.html` | https://mysunkim-debug.github.io/study/ |
-| 📘 수능 영어 어휘 | `suneung/index.html` | https://mysunkim-debug.github.io/study/suneung/ |
-| 📒 국어 어휘 노트 | `vocab/index.html` | https://mysunkim-debug.github.io/study/vocab/ |
+| 시작 페이지 | `index.html` | https://sunnykim93.github.io/study/ |
+| 📘 수능 영어 어휘 | `english/index.html` | https://sunnykim93.github.io/study/english/ |
+| 📒 국어 어휘 노트 | `korean/index.html` | https://sunnykim93.github.io/study/korean/ |
 
-- 저장소: `mysunkim-debug/study`, 브랜치 `main`. push하면 1~2분 뒤 사이트에 반영된다.
+- 저장소: `Sunnykim93/study` (git remote `origin`), 브랜치 `main`. push하면 1~2분 뒤 사이트에 반영된다.
 - 학생들이 실제로 쓰는 중이다. 고친 뒤에는 **바로 push까지** 하는 것이 그동안의 방식이었다 (사용자가 "올려 줘"라고 함).
-- 2026-10-19에 `mysunkim-debug/ipsi-schedule` 저장소(입시일정 앱)에서 옮겨 왔다. 그쪽의 `suneung/`, `vocab/`에는 이 주소로 **자동 이동하는 페이지만** 남아 있다. 앱 수정은 반드시 이 저장소에서 한다.
+- **예전 사이트** `mysunkim-debug/study` (git remote `old`, 주소 `mysunkim-debug.github.io/study/suneung/`, `/vocab/`)는 기존 학생용으로 2026-10-22 상태 그대로 둔다. 사용자가 따로 부탁하지 않으면 그쪽에 push하지 않는다. 폴더 이름이 다르므로(`suneung`·`vocab`) 이 저장소를 그대로 올리면 예전 주소가 깨진다.
+- 2026-10-22에 새 계정 Sunnykim93으로 복사하면서 폴더 이름을 `suneung`→`english`, `vocab`→`korean`으로 바꿨다. 이 컴퓨터에서 Claude의 명령 창은 예전 계정(mysunkim-debug)으로 보일 수 있으니, push·`gh` 명령은 사용자 터미널(새 계정)에서 실행한다.
 
 ## 절대 하지 말 것
 
 - **단어 목록의 중간에 끼우거나 기존 줄을 지우지 않는다.** 학생 기록(외움·별표·오답)은 브라우저 localStorage에 단어 **순서 번호(id)** 로 저장된다. 순서가 밀리면 기록이 엉뚱한 단어로 옮겨 간다. 새 단어는 항상 **목록 맨 아래**에.
-- **`index.html` 파일 이름이나 `suneung/`, `vocab/` 폴더 이름을 바꾸지 않는다.** 주소가 깨진다 (Pages는 폴더 주소에서 index.html을 연다).
+- **`index.html` 파일 이름이나 `english/`, `korean/` 폴더 이름을 바꾸지 않는다.** 주소가 깨진다 (Pages는 폴더 주소에서 index.html을 연다).
 - localStorage 키(`suneung-vocab-v1`, `vocab-note-v1`, `vocab-note-seen-v1`)를 바꾸지 않는다. 학생 기록이 사라진다.
 - 화면의 `by Sunny`, `무단 복제·배포 금지`, `© 2026 Sunny` 표기를 지우지 않는다.
 
-## 📘 수능 영어 어휘 (`suneung/index.html`)
+## 📘 수능 영어 어휘 (`english/index.html`)
 
 탭: 단어장 / 카드 / 퀴즈 / 개념. 🎨 배경색 선택, 품사 색 배지, 발음(speechSynthesis).
 
@@ -47,7 +48,7 @@ GitHub Pages로 배포되는 정적 웹앱 2개. 서버·빌드 도구·외부 �
 
 색 토큰: 뜻 검정, 예시 영어 `--ex`(청록), 표제어 `.hw`(파랑), 해석 `--ko`(갈색), 소제목 `--accent`(보라). 색을 추가할 때는 밝은 모드·어두운 모드(두 군데)·인쇄 블록의 토큰을 모두 맞춘다.
 
-## 📒 국어 어휘 노트 (`vocab/index.html`)
+## 📒 국어 어휘 노트 (`korean/index.html`)
 
 **단어** — `const SEED = [` 배열, `];` 바로 위에 추가. 한 줄 = `['날짜', '품사', '단어', '한자', '뜻', '유의어', '반의어', '메모'],` (id는 `w`+순서).
 - 품사: `명` `동` `형` `부` `기타`. 빈칸은 `''`.
@@ -57,8 +58,8 @@ GitHub Pages로 배포되는 정적 웹앱 2개. 서버·빌드 도구·외부 �
 
 ## 확인과 배포
 
-- 화면 확인: 로컬 미리보기 서버로 `http://localhost:<port>/suneung/` 등을 열어 본다 (파일을 직접 열면 브라우저 도구가 막히는 경우가 있다). 휴대폰 폭(375px)과 어두운 모드도 확인한다.
+- 화면 확인: 로컬 미리보기 서버로 `http://localhost:<port>/english/` 등을 열어 본다 (파일을 직접 열면 브라우저 도구가 막히는 경우가 있다). 휴대폰 폭(375px)과 어두운 모드도 확인한다.
 - **학교 네트워크에서는 github.io 주소가 AhnLab 보안 페이지(192.168.75.162)로 가로채진다.** 그 페이지에서 아무것도 내려받지 말 것. 배포 확인은 GitHub 기록으로 한다:
-  `gh api repos/mysunkim-debug/study/pages/builds/latest --jq '.status + " " + .commit'` → `built <커밋>`이면 반영 완료.
+  `gh api repos/Sunnykim93/study/pages/builds/latest --jq '.status + " " + .commit'` → `built <커밋>`이면 반영 완료.
 - 커밋 메시지는 한국어로 `수능 영어 어휘: …` / `어휘 노트: …` 형식.
 - README.md의 "단어 추가·수정하는 법"은 사용자가 Claude 없이 GitHub 웹에서 직접 고칠 때 보는 설명서다. 데이터 형식을 바꾸면 README도 같이 고친다.

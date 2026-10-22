@@ -1,11 +1,11 @@
 # 📚 study · 학습 앱 모음
 
-**🔗 바로 사용하기: https://mysunkim-debug.github.io/study/**
+**🔗 바로 사용하기: https://sunnykim93.github.io/study/**
 
 | 앱 | 주소 |
 |---|---|
-| 📘 수능 영어 어휘 | https://mysunkim-debug.github.io/study/suneung/ |
-| 📒 국어 어휘 노트 | https://mysunkim-debug.github.io/study/vocab/ |
+| 📘 수능 영어 어휘 | https://sunnykim93.github.io/study/english/ |
+| 📒 국어 어휘 노트 | https://sunnykim93.github.io/study/korean/ |
 
 각 앱은 `index.html` 파일 하나로 동작하며, 서버·로그인이 필요 없습니다.
 학습 기록은 학생 각자의 기기·브라우저에 저장됩니다.
@@ -16,9 +16,9 @@
 
 # 📒 국어 어휘 노트
 
-**🔗 바로 사용하기: https://mysunkim-debug.github.io/study/vocab/**
+**🔗 바로 사용하기: https://sunnykim93.github.io/study/korean/**
 
-국어 어휘 노트에 정리한 단어를 날짜별로 모아 보고 검색하는 웹앱입니다. (`vocab/index.html`)
+국어 어휘 노트에 정리한 단어를 날짜별로 모아 보고 검색하는 웹앱입니다. (`korean/index.html`)
 
 - 단어·뜻·유의어·한자 검색, 초성 검색 (예: `ㅍㄹㅎㄷ` → 파리하다)
 - 품사·날짜별 보기, 가나다순 정렬
@@ -29,7 +29,7 @@
 
 # 📘 수능 영어 어휘
 
-수능 영어 고빈출 400 단어와 2027학년도 6/9모 어휘(공통 단어·다의어·관용어구·연결어·주석 단어)를 공부하는 웹앱입니다. (`suneung/index.html`)
+수능 영어 고빈출 400 단어와 2027학년도 6/9모 어휘(공통 단어·다의어·관용어구·연결어·주석 단어)를 공부하는 웹앱입니다. (`english/index.html`)
 
 - 학습 범위: 고빈출 400 Day 1~8(50개씩), 6/9모 분류별, ★ 별표, ✗ 틀린 단어
 - 단어장: 검색, 뜻 가리기, 발음 듣기, 외움·별표 표시, 품사 색깔 배지 (동·명·형·부·전·숙어), 고빈출 400 예시 구문·해석
@@ -44,10 +44,10 @@
 
 프로그램 설치 없이 **GitHub 웹사이트에서** 바로 고칠 수 있습니다.
 
-1. https://github.com/mysunkim-debug/study 에 로그인해서 들어갑니다.
+1. https://github.com/Sunnykim93/study 에 로그인해서 들어갑니다.
 2. 고칠 파일을 엽니다.
-   - 국어 어휘 노트 → `vocab/index.html`
-   - 수능 영어 어휘 → `suneung/index.html`
+   - 국어 어휘 노트 → `korean/index.html`
+   - 수능 영어 어휘 → `english/index.html`
 3. 오른쪽 위 **연필 모양(✏️ Edit this file)** 을 누릅니다.
 4. `Ctrl + F`로 아래에 적은 목록 이름을 찾아, **목록 맨 아래**에 한 줄을 추가합니다.
 5. 오른쪽 위 초록 버튼 **Commit changes…** → 다시 **Commit changes**를 누릅니다.
@@ -57,7 +57,7 @@
 >
 > 따옴표(`'` 또는 `"`), 쉼표(`,`), 대괄호(`[ ]`)를 빠뜨리면 앱이 아예 안 열립니다. **바로 위 줄을 복사해서 내용만 바꾸는 것**이 가장 안전합니다. 저장 후 앱이 안 열리면 방금 고친 줄을 다시 확인하세요.
 
-## 📒 국어 어휘 노트 (`vocab/index.html`)
+## 📒 국어 어휘 노트 (`korean/index.html`)
 
 `const SEED = [` 목록의 맨 끝, `];` 바로 위에 추가합니다.
 
@@ -72,7 +72,7 @@
 - **한자어는 한자 칸도 채워 주세요.** 새 한자는 `const HANJA` 표에도 `字:훈 음|` 형식으로 넣어야 한자를 눌렀을 때 뜻이 나옵니다. (예: `思:생각 사|索:찾을 색|`)
 - 이미 학생 기기에 들어간 단어의 **뜻을 고치면, 그 기기에는 반영되지 않습니다** (기기에 저장된 사본을 씁니다). 새로 여는 기기에만 적용되니, 기존 학생에게는 앱의 수정 버튼으로 직접 고치게 안내하세요.
 
-## 📘 수능 영어 어휘 (`suneung/index.html`)
+## 📘 수능 영어 어휘 (`english/index.html`)
 
 이 앱은 고친 내용이 **모든 기기에 바로 반영**됩니다. (기존 단어의 뜻 수정도 OK)
 
