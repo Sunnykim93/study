@@ -571,7 +571,8 @@ function render() {
   );
 
   const byWord = (a, b) => a.word.replace(/^~/, '').localeCompare(b.word.replace(/^~/, ''), 'ko');
-  list.sort(state.sort === 'abc' ? byWord : (a, b) => a.date.localeCompare(b.date) || 0);
+  // 날짜순은 최근 날짜가 위로 (같은 날 안에서는 노트에 적은 순서 그대로)
+  list.sort(state.sort === 'abc' ? byWord : (a, b) => b.date.localeCompare(a.date) || 0);
 
   const blank = words.filter(w => !w.meaning.trim()).length;
   $('resultInfo').textContent = (q ? `‘${q}’ 검색 결과 ${list.length}개` : `${list.length}개 표시 중`) +
@@ -587,7 +588,7 @@ function render() {
   } else {
     const groups = {};
     list.forEach(w => (groups[w.date] = groups[w.date] || []).push(w));
-    $('list').innerHTML = Object.keys(groups).sort().map(d => `
+    $('list').innerHTML = Object.keys(groups).sort().reverse().map(d => `
       <section class="day">
         <h2>${formatDate(d)} <span>${groups[d].length}개</span></h2>
         <div class="words">${groups[d].map(w => card(w, q)).join('')}</div>
