@@ -553,7 +553,7 @@ function renderFilters() {
     `<button class="chip ${state.pos === p ? 'on' : ''}" data-pos="${p}">${p === '전체' ? '전체' : POS_NAME[p]}</button>`
   ).join('');
 
-  const dates = [...new Set(words.map(w => w.date))].sort();
+  const dates = [...new Set(words.map(w => w.date))].sort().reverse(); // 최근 날짜가 위로
   if (state.date && !dates.includes(state.date)) state.date = '';
   $('dateFilter').innerHTML = `<option value="">모든 날짜</option>` +
     dates.map(d => `<option value="${d}" ${d === state.date ? 'selected' : ''}>${formatDate(d)} · ${words.filter(w => w.date === d).length}개</option>`).join('');
