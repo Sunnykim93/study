@@ -215,6 +215,7 @@
   .c-sec { --sec: var(--sec-pron); }
   .c-sec.sec-det { --sec: var(--sec-det); }
   .c-sec.sec-art { --sec: var(--sec-art); }
+  .c-sec.sec-etc { --sec: var(--accent); }
   .c-head {
     display: inline-block; font-weight: bold; font-size: 17px; line-height: 1.4;
     background: var(--sec); color: #fff; border-radius: 7px; padding: 3px 11px; margin-bottom: 8px;
@@ -511,7 +512,7 @@
     <div class="c-tip">
       <b>💡 왜 중요할까?</b> 연결어는 <b>앞 문장과 뒷 문장의 관계</b>를 알려 줍니다.
       빈칸에 연결어를 고르는 문제는 먼저 두 문장이 <b>같은 방향</b>인지, <b>반대 방향</b>인지, <b>원인→결과</b>인지 정하면 풀려요.
-      <div class="c-legend"><b>=</b> 순접 · <b>≠</b> 역접 · <b>→</b> 원인-결과</div>
+      <div class="c-legend"><b>=</b> 순접 / <b>≠</b> 역접 / <b>→</b> 원인-결과 / 기타</div>
     </div>
 
     <div class="c-sec sec-det">
@@ -525,12 +526,30 @@
         </div>
         <div class="c-box">
           <div class="c-box-title">연결어 없이 예시가 나오는 경우</div>
-          <div class="c-desc" style="margin-top:0"><b class="en">In A ..., In B ...</b> — A의 경우에는 …, B의 경우에는 …<br>
-            <b class="en">Suppose (Think, Imagine) that ...</b> — ~라고 가정해 보자</div>
+          <div class="c-desc" style="margin-top:0"><b class="en">In A ..., In B ...</b> <span class="c-paren">(A의 경우에는 …, B의 경우에는 …)</span><br>
+            <b class="en">Suppose (Think, Imagine) that ...</b> <span class="c-paren">(~라고 가정해 보자)</span><br>
+            <b class="en">When (If) ...</b> <span class="c-paren">(~할 때, ~하면: 구체적인 상황을 하나 들어 보여 줌)</span><br>
+            <b>구체적인 이름</b> <span class="c-paren">(사람·사물·장소·연도 등)</span>이 갑자기 등장</div>
           <div class="c-ex">
             <p class="en">People often judge others too quickly. <b>Imagine that</b> a stranger doesn't smile back at you.</p>
             <p class="ko">사람들은 흔히 남을 너무 빨리 판단한다. 낯선 사람이 당신에게 웃어 주지 않는다고 상상해 보라.</p>
           </div>
+          <div class="c-ex">
+            <p class="en">Our emotions can easily spread to others. <b>When</b> a friend yawns in front of you, you often start yawning too.</p>
+            <p class="ko">감정은 다른 사람에게 쉽게 퍼질 수 있다. 친구가 앞에서 하품을 하면, 당신도 흔히 따라서 하품을 하게 된다. <span class="c-paren">→ 앞의 일반적인 말(감정이 퍼짐)의 예</span></p>
+          </div>
+          <div class="c-ex">
+            <p class="en">Many great discoveries happened by accident. <b>Alexander Fleming</b> found <b>penicillin</b> when mold grew on a dish he had forgotten to clean.</p>
+            <p class="ko">많은 위대한 발견은 우연히 일어났다. 알렉산더 플레밍은 씻는 것을 잊어버린 접시에 곰팡이가 자라면서 페니실린을 발견했다. <span class="c-paren">→ 앞의 일반적인 말(우연한 발견)의 예</span></p>
+          </div>
+        </div>
+      </div>
+      <div class="c-item">
+        <div class="c-head-row"><span class="c-head en">In particular, Specifically</span><span class="c-head-note">구체화</span></div>
+        <div class="c-desc">앞에서 넓게 말한 것을 <b>좁혀서 콕 집어</b> 말합니다. (특히, 구체적으로 말하면)</div>
+        <div class="c-ex">
+          <p class="en">Social media affects young people's self-image. <b>In particular</b>, edited photos make many teens feel unhappy with their bodies.</p>
+          <p class="ko">소셜 미디어는 젊은이들의 자아상에 영향을 준다. 특히, 보정된 사진은 많은 십 대가 자기 몸에 불만을 느끼게 만든다.</p>
         </div>
       </div>
       <div class="c-item">
@@ -539,6 +558,14 @@
         <div class="c-ex">
           <p class="en">The task requires divergent thinking. <b>In other words</b>, you must come up with many different ideas.</p>
           <p class="ko">그 과제는 확산적 사고를 필요로 한다. 다시 말해, 여러 가지 다양한 생각을 떠올려야 한다.</p>
+        </div>
+        <div class="c-box">
+          <div class="c-box-title">결론·요약: <span class="en">In sum, In conclusion, Ultimately</span></div>
+          <div class="c-desc" style="margin-top:0">글을 <b>마무리하며 결론</b>을 냅니다. 이 뒤 문장이 곧 글의 요지예요.</div>
+          <div class="c-ex">
+            <p class="en"><b>Ultimately</b>, what matters most is not how fast you learn but how long you keep learning.</p>
+            <p class="ko">결국, 가장 중요한 것은 얼마나 빨리 배우느냐가 아니라 얼마나 오래 계속 배우느냐이다.</p>
+          </div>
         </div>
       </div>
       <div class="c-item">
@@ -551,7 +578,7 @@
         <div class="c-box">
           <div class="c-box-title">비슷해 보이는 연결어 구별</div>
           <ol class="c-list">
-            <li><span class="c-no">①</span><b class="en">similarly</b> <span class="c-paren">(주어 X / 서술 O)</span>
+            <li><span class="c-no">①</span><b class="en">similarly</b> <span class="c-paren">(= likewise, in the same way)</span> <span class="c-paren">(주어 X / 서술 O)</span>
               <div class="c-desc">주어(대상)는 <b>다르고</b>, 서술(하는 말)은 <b>같아요</b>.</div>
               <div class="c-ex">
                 <p class="en">Plants need sunlight to grow. <b>Similarly</b>, children need attention to develop well.</p>
@@ -584,10 +611,10 @@
     <div class="c-sec sec-art">
       <h3><span class="c-num">(2)</span> 역접 <span class="c-h3-note">앞 문장 ≠ 뒷 문장</span></h3>
       <div class="c-item">
-        <div class="c-head-row"><span class="c-head en">But, However, Yet / In contrast / Nevertheless</span><span class="c-head-note">역접·대조</span></div>
+        <div class="c-head-row"><span class="c-head en">But, However, Yet / In contrast, On the other hand / Nevertheless, Still, Even so</span><span class="c-head-note">역접·대조</span></div>
         <div class="c-desc"><b class="en">But, However, Yet</b>: 앞과 반대되는 내용<br>
           <b class="en">In contrast, On the other hand</b>: 두 대상을 비교·대조<br>
-          <b class="en">Nevertheless</b>: 앞 내용에도 불구하고 (예상과 다른 결과)</div>
+          <b class="en">Nevertheless, Still, Even so</b>: 앞 내용에도 불구하고 (예상과 다른 결과)</div>
         <div class="c-ex">
           <p class="en">Many people believe that multitasking saves time. <b>However</b>, studies show that it actually reduces efficiency.</p>
           <p class="ko">많은 사람이 여러 일을 동시에 하면 시간이 절약된다고 믿는다. 그러나 연구에 따르면 실제로는 효율이 떨어진다.</p>
@@ -605,11 +632,16 @@
         <div class="c-head-row"><span class="c-head">반전 연결어</span><span class="c-head-note">앞 내용을 뒤집고 진짜 하고 싶은 말로</span></div>
         <ol class="c-list">
           <li><span class="c-no">①</span><b class="en">But, However, Yet</b> <span class="c-paren">(이거 모르는 사람은 설마 없겠지)</span></li>
-          <li><span class="c-no">②</span><span class="c-paren">(부정문·부정어감)</span> <b class="en">Instead, Rather</b> <span class="c-paren">(그거 아니야~ 대신/오히려 이거지)</span>
+          <li><span class="c-no">②</span><span class="c-paren">(부정문·부정어감)</span> <b class="en">Instead, Rather, On the contrary</b> <span class="c-paren">(그거 아니야~ 대신/오히려 이거지)</span>
             <div class="c-desc">앞 문장에 <b>not, no, never</b> 같은 부정이 먼저 나오고, 뒤에 진짜 답이 와요.</div>
             <div class="c-ex">
               <p class="en">Success does not come from luck. <b>Rather</b>, it comes from steady effort.</p>
               <p class="ko">성공은 운에서 오지 않는다. 오히려, 꾸준한 노력에서 온다.</p>
+            </div>
+            <div class="c-desc"><b class="en">On the contrary</b>도 같은 자리에 와요. 앞의 부정을 받아 <b>"오히려 정반대야"</b>라고 뒤집어요.</div>
+            <div class="c-ex">
+              <p class="en">Mistakes are not a sign of weakness. <b>On the contrary</b>, they show that you are trying something new.</p>
+              <p class="ko">실수는 약하다는 표시가 아니다. 오히려 정반대로, 새로운 것을 시도하고 있다는 것을 보여 준다.</p>
             </div>
           </li>
           <li><span class="c-no">③</span><b class="en">In fact, In reality</b> <span class="c-paren">(현실을 직시하자 제발, 정신 차려!)</span>
@@ -648,7 +680,7 @@
     <div class="c-sec sec-pron">
       <h3><span class="c-num">(3)</span> 원인-결과 <span class="c-h3-note">앞 문장 → 뒷 문장</span></h3>
       <div class="c-item">
-        <div class="c-head en">So, Therefore, Thus, Hence, Consequently, As a result</div>
+        <div class="c-head en">So, Therefore, Thus, Hence, Consequently, As a result, For this reason, Accordingly</div>
         <div class="c-desc">앞 문장이 <b>원인</b>, 뒷 문장이 <b>결과</b>예요.</div>
         <div class="c-ex">
           <p class="en">The bridge was badly damaged by the storm. <b>Consequently</b>, it was closed for repairs.</p>
@@ -669,6 +701,23 @@
         </div>
       </div>
       <div class="c-item">
+        <div class="c-pair">
+          <div><div class="c-head en">That's why ~</div><div>앞 = 원인 → 뒤 = 결과</div></div>
+          <div class="c-vs">vs</div>
+          <div><div class="c-head en">That's because ~</div><div>앞 = 결과 → 뒤 = 원인</div></div>
+        </div>
+        <div class="c-desc">생김새는 비슷하지만 <b>원인과 결과의 순서가 반대</b>예요! <span class="c-imp">헷갈림 주의</span><br>
+          <span class="c-paren">※ 여기서 That은 앞 문장 전체를 가리키는 지시어 (1. 지시어의 this/that 참고)</span></div>
+        <div class="c-ex">
+          <p class="en">I stayed up all night. <b>That's why</b> I'm so tired today.</p>
+          <p class="ko">밤을 새웠다. 그래서 오늘 이렇게 피곤하다. <span class="c-paren">→ 뒤가 결과</span></p>
+        </div>
+        <div class="c-ex">
+          <p class="en">I'm so tired today. <b>That's because</b> I stayed up all night.</p>
+          <p class="ko">오늘 너무 피곤하다. 그건 밤을 새웠기 때문이다. <span class="c-paren">→ 뒤가 원인</span></p>
+        </div>
+      </div>
+      <div class="c-item">
         <div class="c-head-row"><span class="c-head en">so ~ that / (,) so that / the 비교급, the 비교급</span><span class="c-head-note">그 외</span></div>
         <div class="c-ex">
           <p class="en">The music was <b>so</b> loud <b>that</b> we couldn't hear each other.</p>
@@ -681,6 +730,26 @@
         <div class="c-ex">
           <p class="en"><b>The more</b> you practice, <b>the more</b> confident you become.</p>
           <p class="ko">연습을 많이 할수록 더 자신감이 생긴다.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="c-sec sec-etc">
+      <h3><span class="c-num">(4)</span> 기타 <span class="c-h3-note">=, ≠, → 어디에도 딱 맞지 않는 것</span></h3>
+      <div class="c-item">
+        <div class="c-head-row"><span class="c-head en">Otherwise</span><span class="c-head-note">그렇지 않으면</span> <span class="c-imp">빈칸 단골!</span></div>
+        <div class="c-desc">앞 문장의 내용(조건·할 일)을 <b>하지 않았을 때 생길 결과</b>를 말합니다. 보통 앞에는 must, should 같은 말, 뒤에는 좋지 않은 결과가 와요.</div>
+        <div class="c-ex">
+          <p class="en">You should save your file every few minutes. <b>Otherwise</b>, you may lose hours of work.</p>
+          <p class="ko">몇 분마다 파일을 저장해야 한다. 그렇지 않으면, 몇 시간 동안 한 작업을 잃을 수도 있다.</p>
+        </div>
+      </div>
+      <div class="c-item">
+        <div class="c-head-row"><span class="c-head en">Meanwhile</span><span class="c-head-note">한편</span></div>
+        <div class="c-desc">같은 시간에 <b>다른 쪽에서 일어나는 일</b>로 화제를 옮깁니다. 앞과 대조되는 내용이 오는 경우도 많아요.</div>
+        <div class="c-ex">
+          <p class="en">Some countries are building more coal plants. <b>Meanwhile</b>, others are investing heavily in solar power.</p>
+          <p class="ko">어떤 나라들은 석탄 발전소를 더 짓고 있다. 한편, 다른 나라들은 태양광 발전에 많은 투자를 하고 있다.</p>
         </div>
       </div>
     </div>
