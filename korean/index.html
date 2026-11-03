@@ -581,6 +581,10 @@ function renderFilters() {
   $('totalCount').textContent = `단어 ${words.length}개`;
 }
 
+// 나중에 끼워 넣어야 했던 단어의 화면 순서 (노트 번호 순). 번호(id)는 그대로 두고 보이는 순서만 바꿈
+const NOTE_ORDER = ['w80', 'w81', 'w82', 'w83', 'w84', 'w88', 'w89', 'w85', 'w86', 'w90', 'w87']; // 11/2
+const noteRank = w => { const i = NOTE_ORDER.indexOf(w.id); return i < 0 ? NOTE_ORDER.length : i; };
+
 function render() {
   const q = state.q.trim();
   let list = words.filter(w =>
@@ -593,7 +597,7 @@ function render() {
 
   const byWord = (a, b) => a.word.replace(/^~/, '').localeCompare(b.word.replace(/^~/, ''), 'ko');
   // 날짜순은 최근 날짜가 위로 (같은 날 안에서는 노트에 적은 순서 그대로)
-  list.sort(state.sort === 'abc' ? byWord : (a, b) => b.date.localeCompare(a.date) || 0);
+  list.sort(state.sort === 'abc' ? byWord : (a, b) => b.date.localeCompare(a.date) || noteRank(a) - noteRank(b));
 
   const blank = words.filter(w => !w.meaning.trim()).length;
   $('resultInfo').textContent = (q ? `‘${q}’ 검색 결과 ${list.length}개` : `${list.length}개 표시 중`) +
