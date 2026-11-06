@@ -426,8 +426,20 @@ const SEED = [
   ['2026-11-02', '형', '경망스럽다', '輕妄', '행동이나 말이 가볍고 조심성이 없다.', '경솔하다, 방정맞다', '', ''],
   ['2026-11-02', '명', '도승지', '都承旨', '조선 시대 승정원의 으뜸 벼슬. 왕명의 출납을 맡은 정삼품 당상관.', '', '', '고전 소설에 나오는 벼슬 이름'],
   ['2026-11-02', '형', '추비하다', '醜卑 / 麤鄙', '(醜卑) 추접하고 비겁하다.\n(麤鄙) 거칠고 더럽고 낮다.', '비루하다, 추접하다', '', ''],
-  ['2026-11-02', '기타', '갑박이', '', '', '', '', ''], // 사전에 없어 뜻을 비워 둠. 뜻을 알게 되면 여기에 넣으면 fillBlanks가 기기에도 채워 줌
+  ['2026-11-02', '기타', '갑박이', '', '', '', '', ''], // 지움 (REMOVED). 뒤 단어 번호가 밀리지 않게 줄은 남겨 둠
+  // 11/5 (뜻은 표준국어대사전을 참고해 채움)
+  ['2026-11-05', '형', '주도하다', '周到 / 主導', '(周到) 주의가 두루 미쳐서 빈틈없이 찬찬하다.\n(主導) 앞장서서 조직이나 무리를 이끌다.', '치밀하다, 꼼꼼하다', '', '예: 주도면밀하다 · 主導하다는 동사'],
+  ['2026-11-05', '동', '숭상하다', '崇尙', '높여 소중히 여기다.', '존중하다, 받들다', '', '예: 유교를 숭상하다'],
+  ['2026-11-05', '형', '산뜻하다', '', '기분이나 느낌이 깨끗하고 시원하다.\n보기에 시원스럽고 말쑥하다.', '상쾌하다, 말쑥하다', '', ''],
+  ['2026-11-05', '형', '송연하다', '悚然', '두려워 몸을 옹송그릴 정도로 오싹 소름이 끼치는 듯하다.', '오싹하다', '', '예: 모골이 송연하다'],
+  ['2026-11-05', '동', '벼르다', '', '어떤 일을 이루려고 마음속으로 준비를 단단히 하고 기회를 엿보다.\n일정한 비례에 맞추어서 여러 몫으로 나누다.', '', '', '예: 단단히 벼르고 있다'],
+  ['2026-11-05', '명', '신수', '身手', '용모와 풍채를 통틀어 이르는 말.', '풍채, 용모', '', '예: 신수가 훤해 보이다 · 身數(한 사람의 운수)와 구별'],
+  ['2026-11-05', '명', '정관', '靜觀', '조용히 사물을 관찰하거나 사색함.\n실천적 관심을 떠나 객관적으로 사물을 바라봄.', '관조', '', ''],
+  ['2026-11-05', '동', '재취하다', '再娶', '아내를 여의었거나 아내와 헤어진 사람이 다시 장가들다.', '재혼하다', '', ''],
+  ['2026-11-05', '형', '자심하다', '滋甚', '더욱 심하다.', '극심하다', '', '예: 피해가 자심하다'],
 ];
+// 지운 기본 단어 번호. 줄은 남기고 화면과 학생 기기에서만 뺌
+const REMOVED = ['w90'];
 
 const splitList = s => (s || '').split(',').map(x => x.trim()).filter(Boolean);
 
@@ -435,11 +447,16 @@ function seedWords() {
   return SEED.map(([date, pos, word, hanja, meaning, syn, ant, note], i) => ({
     id: 'w' + (i + 1), date, pos, word, hanja, meaning,
     syn: splitList(syn), ant: splitList(ant), note, star: false,
-  }));
+  })).filter(w => !REMOVED.includes(w.id));
 }
 
 const SEEN_KEY = 'vocab-note-seen-v1';
 const FIRST_SEED_COUNT = 64; // 새 단어 자동 추가 기능 이전에 배포된 기본 단어 수 (w1~w64)
+// 노트를 잘못 읽었던 단어: 예전 이름 → 바른 이름 (load()보다 먼저 선언해야 함)
+const RENAMED = { '자자하다': '짜짜하다' };
+// 예전에는 RENAMED가 load()보다 뒤에 있어서 저장 자료를 못 읽고 늘 기본 단어로 새로 시작했음.
+// 그동안 '받은 단어' 기록만 쌓였으므로, 이 기기에서 한 번은 빠진 기본 단어를 모두 다시 넣음.
+const REPAIR_KEY = 'vocab-note-repair-v1';
 let newWordCount = 0;
 let words = load();
 let state = { q: '', pos: '전체', date: '', sort: 'date', hide: false, starOnly: false, blankOnly: false };
@@ -449,10 +466,11 @@ function load() {
   let result = null;
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-    if (Array.isArray(saved)) result = addNewSeedWords(fillBlanks(saved));
+    if (Array.isArray(saved)) result = addNewSeedWords(fillBlanks(saved.filter(w => !REMOVED.includes(w.id))));
   } catch (e) { /* 저장된 자료가 없거나 읽을 수 없음 */ }
   if (!result) result = seedWords();
   markSeedSeen();
+  try { localStorage.setItem(REPAIR_KEY, '1'); } catch (e) { /* 무시 */ }
   return result;
 }
 
@@ -469,7 +487,9 @@ function markSeedSeen() {
 }
 // 나중에 추가된 기본 단어를 저장된 단어장에 넣음
 function addNewSeedWords(saved) {
-  const seen = getSeen();
+  let repaired = true;
+  try { repaired = localStorage.getItem(REPAIR_KEY) === '1'; } catch (e) { /* 무시 */ }
+  const seen = repaired ? getSeen() : new Set();
   const have = new Set(saved.map(w => w.id));
   const fresh = seedWords().filter(w => !seen.has(w.id) && !have.has(w.id));
   newWordCount = fresh.length;
@@ -479,9 +499,6 @@ function addNewSeedWords(saved) {
   }
   return saved;
 }
-// 노트를 잘못 읽었던 단어: 예전 이름 → 바른 이름
-const RENAMED = { '자자하다': '짜짜하다' };
-
 // 예전에 뜻 없이 저장된 기본 단어는 새 기본 자료의 뜻으로 채움 (직접 적은 뜻은 그대로 둠)
 function fillBlanks(saved) {
   const seed = Object.fromEntries(seedWords().map(w => [w.id, w]));
@@ -582,7 +599,7 @@ function renderFilters() {
 }
 
 // 나중에 끼워 넣어야 했던 단어의 화면 순서 (노트 번호 순). 번호(id)는 그대로 두고 보이는 순서만 바꿈
-const NOTE_ORDER = ['w80', 'w81', 'w82', 'w83', 'w84', 'w88', 'w89', 'w85', 'w86', 'w90', 'w87']; // 11/2
+const NOTE_ORDER = ['w80', 'w81', 'w82', 'w83', 'w84', 'w88', 'w89', 'w85', 'w86', 'w87']; // 11/2
 const noteRank = w => { const i = NOTE_ORDER.indexOf(w.id); return i < 0 ? NOTE_ORDER.length : i; };
 
 function render() {
@@ -792,7 +809,9 @@ const HANJA = Object.fromEntries(`
 輪:바퀴 륜|廻:돌 회|有:있을 유|情:뜻 정|
 高:높을 고|邁:뛰어날 매|門:문 문|柱:기둥 주|古:옛 고|雅:맑을 아|虛:빌 허|衰:쇠할 쇠|
 仕:벼슬 사|宦:벼슬 환|炯:빛날 형|輕:가벼울 경|妄:망령될 망|使:부릴 사|喚:부를 환|
-都:도읍 도|承:이을 승|旨:뜻 지|醜:추할 추|卑:낮을 비|麤:거칠 추|鄙:더러울 비
+都:도읍 도|承:이을 승|旨:뜻 지|醜:추할 추|卑:낮을 비|麤:거칠 추|鄙:더러울 비|
+周:두루 주|到:이를 도|主:주인 주|導:이끌 도|崇:높을 숭|尙:숭상할 상|悚:두려울 송|手:손 수|數:셈 수|
+靜:고요할 정|觀:볼 관|再:두 재|娶:장가들 취|滋:불을 자|甚:심할 심
 `.replace(/\n/g, '').split('|').map(s => s.split(':')));
 
 const HANJA_RUN = /[㐀-鿿豈-﫿]+/g;
