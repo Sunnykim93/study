@@ -307,7 +307,8 @@
       --bg: #ffffff; --card: #ffffff; --text: #1d2330; --muted: #5b6270; --line: #d5dae2;
       --primary: #2f6fed; --primary-soft: #eaf1ff; --good: #1f8a52; --bad: #d64545; --bad-soft: #fdeaea;
       --star: #f0a020; --accent: #8a4fd6; --ko: #8a5a2b; --ex: #0f766e; --shadow: none;
-      --sec-pron: #2f6fed; --sec-det: #0d7f86; --sec-art: #d0650f;
+      --sec-pron: #2f6fed; --sec-det: #0d7f86; --sec-art: #d0650f; --accent-soft: #f2eafd;
+      --pos-동: #2f6fed; --pos-명: #2f8f5b; --pos-형: #c2410c; --pos-부: #7a4fd6; --pos-전: #0e7c86; --pos-숙어: #b8327a;
     }
     * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     body { background: #fff; font-size: 11pt; }
@@ -322,8 +323,21 @@
     .c-ex, .c-tip, .c-head-row, .c-pair { break-inside: avoid; }
     .c-sec h3, .c-head, .c-box-title { break-after: avoid; }
     .c-units { display: none !important; }
+    body[data-tab="sj"] #tab-sj { display: block !important; }
+    body[data-tab="sj"] #tab-concept { display: none !important; }
+    .sj-groups, .sj-tools, .word .acts { display: none !important; }
+    .sj-head { margin: 10px 0 4px; font-size: 9.5pt; break-after: avoid; }
+    .sj-head b { font-size: 13pt; }
+    /* 종이를 아끼려고 단어와 뜻을 한 줄에 */
+    .word { box-shadow: none; padding: 3px 6px; margin-bottom: 3px; gap: 1px 8px; grid-template-columns: 26px max-content 1fr; break-inside: avoid; }
+    .word .no { font-size: 9pt; padding-top: 1px; }
+    .word .w { font-size: 11.5pt; grid-column: 2; }
+    .word .m { grid-column: 3; grid-row: 1; font-size: 10pt; padding-top: 1px; }
+    .word .exl { grid-column: 2 / 4; font-size: 9pt; line-height: 1.35; }
+    .sj-src { font-size: 7.5pt; }
     .c-table { break-inside: avoid; }
     .copy { margin-top: 10px; }
+    body[data-tab="sj"] .copy { display: none; }  /* 저작권 줄 하나만 빈 쪽으로 넘어가지 않게 머리글에 적음 */
   }
 </style>
 </head>
@@ -358,6 +372,7 @@
   <!-- 단어장 -->
   <!-- 핵심어휘 -->
   <section id="tab-sj" class="concept" hidden>
+    <div class="print-only print-head">📘 수능 영어 어휘 <i>by Sunny</i> · 핵심어휘 <span>© 2026 Sunny · 무단 복제·배포 금지</span></div>
     <div class="c-tip">
       <b>💡 핵심어휘: 선지에서 정답을 가르는 단어</b><br>오답은 엉뚱한 말보다 <b>본문을 살짝 비튼 말</b>일 때가 많아요. 선지를 다 번역하기 전에 세 가지만 먼저 보세요.
       <ol class="sj-check">
@@ -368,7 +383,7 @@
       <div class="c-legend">표현은 2024~2027학년도 평가원 시험지에서 찾았어요. <span class="sj-src su">수능</span> 표시는 수능에 나온 표현, "선지"는 문제의 보기에 나온 표현이에요.</div>
     </div>
     <div class="c-units sj-groups" id="sjGroups"></div>
-    <div class="sj-tools"><label><input type="checkbox" id="sjSu"> 수능에 나온 단어만</label><button id="sjHide">뜻 가리기</button><span class="sj-count" id="sjCount"></span></div>
+    <div class="sj-tools"><label><input type="checkbox" id="sjSu"> 수능에 나온 단어만</label><button id="sjHide">뜻 가리기</button><button id="sjPrint" title="보고 있는 묶음 인쇄하기">🖨️ 인쇄</button><span class="sj-count" id="sjCount"></span></div>
     <div id="sjWords"></div>
   </section>
 
@@ -2027,6 +2042,7 @@ function renderSj() {
 }
 $('#sjGroups').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { sjGroup = b.dataset.g; renderSj(); } });
 $('#sjSu').addEventListener('change', e => { sjSuOnly = e.target.checked; renderSj(); });
+$('#sjPrint').addEventListener('click', () => window.print());
 $('#sjHide').addEventListener('click', () => { S.hide = !S.hide; save(); renderSj(); });
 
 // ---------- 카드 ----------
@@ -2192,6 +2208,7 @@ function renderResult() {
 // ---------- 탭 · 범위 ----------
 function switchTab(t) {
   S.tab = t; save();
+  document.body.dataset.tab = t;  // 인쇄할 때 핵심어휘/개념 구분
   document.querySelectorAll('nav.tabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === t));
   ['sj', 'list', 'card', 'quiz', 'concept'].forEach(k => $('#tab-' + k).hidden = k !== t);
   // 개념·핵심어휘 탭에는 학습 범위·기록이 필요 없음
