@@ -220,6 +220,18 @@
   .sj-src { display: inline-block; font-size: 12px; line-height: 1.5; color: var(--muted); border: 1px solid var(--line); border-radius: 5px; padding: 0 5px; vertical-align: 1px; }
   .sj-src.su { color: #fff; background: var(--bad); border-color: var(--bad); font-weight: bold; }
   .word .tag.su { color: #fff; background: var(--bad); font-weight: bold; }
+  /* 혼동어휘 */
+  .cf-d { color: var(--bad); font-weight: bold; }
+  .cf-item { display: grid; grid-template-columns: 30px 1fr; gap: 0 8px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; }
+  .cf-no { color: var(--muted); font-size: 14px; padding-top: 3px; text-align: right; }
+  .cf-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 12px; padding: 2px 0; }
+  .cf-w { font-size: 18px; font-weight: bold; min-width: 9.5em; }
+  .cf-m { font-size: 15.5px; }
+  .cf-tip { margin-top: 6px; padding-top: 6px; border-top: 1px dashed var(--line); font-size: 14px; color: var(--muted); }
+  .cf-tip::before { content: "💡 "; }
+  #cfList.spell .cf-d:not(.show) { color: transparent; border-bottom: 2px solid var(--bad); background: var(--bad-soft); border-radius: 3px; cursor: pointer; }
+  #cfList.hidem .cf-m:not(.show) { color: transparent; background: var(--bg); border-radius: 5px; cursor: pointer; user-select: none; }
+  #tab-cf .sj-tools button.on { background: var(--primary); color: #fff; border-color: var(--primary); }
   .c-note { display: flex; gap: 6px; font-size: 15.5px; margin-top: 10px; }  /* 둘째 줄이 라벨 오른쪽에 맞춰 시작 */
   .c-warn { color: var(--bad); font-weight: bold; flex: none; }
   .c-rel { color: var(--sec); font-size: 1.15em; }  /* 29번 관계사: 조건(형광펜)과 구별 */
@@ -312,7 +324,7 @@
     }
     * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     body { background: #fff; font-size: 11pt; }
-    header, #rangePanel, #foot, #printBtn, .theme-pop, #tab-sj, #tab-list, #tab-card, #tab-quiz { display: none !important; }
+    header, #rangePanel, #foot, #printBtn, .theme-pop, #tab-sj, #tab-cf, #tab-list, #tab-card, #tab-quiz { display: none !important; }
     #tab-concept { display: block !important; }
     main { max-width: none; margin: 0; padding: 0; }
     .print-only { display: block; }
@@ -324,7 +336,12 @@
     .c-sec h3, .c-head, .c-box-title { break-after: avoid; }
     .c-units { display: none !important; }
     body[data-tab="sj"] #tab-sj { display: block !important; }
-    body[data-tab="sj"] #tab-concept { display: none !important; }
+    body[data-tab="sj"] #tab-concept, body[data-tab="cf"] #tab-concept { display: none !important; }
+    body[data-tab="cf"] #tab-cf { display: block !important; }
+    .cf-item { break-inside: avoid; padding: 5px 8px; margin-bottom: 4px; }
+    .cf-w { font-size: 11.5pt; }
+    .cf-m { font-size: 10pt; }
+    .cf-tip { font-size: 9pt; margin-top: 3px; padding-top: 3px; }
     .sj-groups, .sj-tools, .word .acts { display: none !important; }
     .sj-head { margin: 10px 0 4px; font-size: 9.5pt; break-after: avoid; }
     .sj-head b { font-size: 13pt; }
@@ -337,7 +354,7 @@
     .sj-src { font-size: 7.5pt; }
     .c-table { break-inside: avoid; }
     .copy { margin-top: 10px; }
-    body[data-tab="sj"] .copy { display: none; }  /* 저작권 줄 하나만 빈 쪽으로 넘어가지 않게 머리글에 적음 */
+    body[data-tab="sj"] .copy, body[data-tab="cf"] .copy { display: none; }  /* 저작권 줄 하나만 빈 쪽으로 넘어가지 않게 머리글에 적음 */
   }
 </style>
 </head>
@@ -347,6 +364,7 @@
     <h1>📘 수능 영어 어휘 <span class="by">by Sunny</span> <small>중요단어(핵심어휘, 고빈출, 자동사) + 개념 <span class="nocopy">무단 복제·배포 금지</span></small></h1>
     <nav class="tabs" role="tablist">
       <button data-tab="sj">핵심어휘</button>
+      <button data-tab="cf">혼동어휘</button>
       <button data-tab="list" class="on">단어장</button>
       <button data-tab="card">카드</button>
       <button data-tab="quiz">퀴즈</button>
@@ -385,6 +403,19 @@
     <div class="c-units sj-groups" id="sjGroups"></div>
     <div class="sj-tools"><label><input type="checkbox" id="sjSu"> 수능에 나온 단어만</label><button id="sjHide">뜻 가리기</button><button id="sjPrint" title="보고 있는 묶음 인쇄하기">🖨️ 인쇄</button><span class="sj-count" id="sjCount"></span></div>
     <div id="sjWords"></div>
+  </section>
+
+  <!-- 혼동어휘 -->
+  <section id="tab-cf" class="concept" hidden>
+    <div class="print-only print-head">📘 수능 영어 어휘 <i>by Sunny</i> · 혼동어휘 <span>© 2026 Sunny · 무단 복제·배포 금지</span></div>
+    <div class="c-tip">
+      <b>💡 혼동어휘: 생김새가 비슷해 헷갈리는 단어</b><br>
+      한두 글자, 앞부분, 끝부분, 짝을 이루는 전치사만 달라도 뜻이 완전히 달라져요. <b class="cf-d">색이 다른 부분</b>이 서로 다른 곳이에요.
+      <div class="c-legend">✏️ <b>철자 가리기</b>를 켜면 다른 부분이 빈칸이 되고, <b>뜻 가리기</b>를 켜면 뜻이 가려져요. 빈칸을 누르면 답이 보여요.</div>
+    </div>
+    <div class="c-units sj-groups" id="cfGroups"></div>
+    <div class="sj-tools"><button id="cfSpell">철자 가리기</button><button id="cfHide">뜻 가리기</button><button id="cfPrint" title="보고 있는 묶음 인쇄하기">🖨️ 인쇄</button><span class="sj-count" id="cfCount"></span></div>
+    <div id="cfList"></div>
   </section>
 
   <section id="tab-list">
@@ -1847,6 +1878,61 @@ const SJ = [
 [84,"context","앞뒤 상황, 맥락","명","사고·추론","legal and established contexts\nIn all other contexts","법적이고 확립된 맥락\n다른 모든 상황에서는","25수능 34번 선지\n26수능 23번"]];
 
 
+// 혼동어휘. 한 줄 = ["묶음", "단어|단어", "뜻|뜻", "외우는 요령"]
+// 단어 안의 [ ] 부분이 서로 다른 곳 (색으로 표시, 철자 가리기 때 빈칸). 단어와 뜻은 | 로 나누고 순서를 맞춘다
+const CF = [
+["철자", "inh[a]bit|inh[i]bit", "살다, 거주하다|억제하다, 막다", "inhabitant(주민)를 떠올리면 a는 사는 것. inhibit의 명사는 inhibition(억제)"],
+["철자", "a[cc]ess|a[ss]ess", "접근, 이용 (기회)|평가하다", "have access to ~을 이용할 수 있다 / assess의 명사는 assessment(평가)"],
+["철자", "ad[a]pt|ad[o]pt", "적응하다, 맞추다|채택하다, 입양하다", "adapt to + 환경: 맞춰 바뀌는 것 / adopt: 남의 것을 내 것으로 받아들이는 것"],
+["철자", "conf[i]rm|conf[o]rm", "확인하다, 사실임을 보여 주다|(규칙·관습에) 따르다", "conform은 뒤에 to가 와요: conform to the rules"],
+["철자", "exp[a]nd|exp[e]nd", "넓히다, 확장하다|(돈·시간·힘을) 쓰다", "expend의 가족: expense(비용), expenditure(지출)"],
+["철자", "compl[e]ment|compl[i]ment", "보완하다, 보완물|칭찬(하다)", "complement는 complete처럼 빈 곳을 채워 완성 / complimentary는 '칭찬하는' 또는 '무료의'"],
+["철자", "[a]ffect|[e]ffect", "영향을 주다 (동사)|효과, 결과 (명사)", "affect = have an effect on. 동사는 a, 명사는 e"],
+["철자", "[e]migrate|[im]migrate", "(다른 나라로) 이민 가다|(다른 나라에서) 이민 오다", "e- = 밖으로, im- = 안으로. 같은 사람도 떠나는 나라에선 emigrant, 도착한 나라에선 immigrant"],
+["철자", "v[a]cation|v[o]cation", "휴가|천직, 직업", "vacation은 일을 비우는 때(vacant 빈) / voc = 부르다(vocal) → 부름을 받은 일. vocational 직업의"],
+["철자", "princip[al]|princip[le]", "주요한; 교장|원리, 원칙", "principal = main(주된) / principle은 rule처럼 지켜야 할 원칙"],
+["접두어", "[at]tribute|[con]tribute|[dis]tribute", "~의 탓·덕으로 돌리다|기여하다, 원인이 되다|나누어 주다, 분배하다", "attribute A to B / contribute to ~에 기여하다, ~의 원인이 되다 / distribution 분배"],
+["접두어", "[pro]ceed|[pre]cede", "계속 진행하다|~보다 먼저 일어나다", "pre- = 먼저(preview), pro- = 앞으로 계속(progress). 끝 철자도 -ceed, -cede로 달라요"],
+["접두어", "[as]sume|[con]sume|[re]sume", "가정하다; (책임을) 맡다|소비하다|다시 시작하다", "assumption 가정 / consumer 소비자 / re- = 다시"],
+["접두어", "[at]tract|[dis]tract|[ex]tract", "끌어당기다|(주의를) 흐트러뜨리다|뽑아내다, 추출하다", "tract = 끌다. distract A from B: A의 주의를 B에서 딴 데로 돌리다"],
+["접두어", "[de]scribe|[pre]scribe|[a]scribe", "묘사하다|처방하다; 규정하다|~의 탓으로 돌리다", "scribe = 쓰다. 의사가 미리 써 주는 것 = 처방(prescription) / ascribe A to B = attribute A to B"],
+["접두어", "[im]pose|[ex]pose|[op]pose", "(세금·규칙을) 부과하다, 강요하다|드러내다, 노출시키다|반대하다", "pose = 놓다. impose A on B / be exposed to ~에 노출되다 / be opposed to ~에 반대하다"],
+["접두어", "[per]ceive|[con]ceive|[de]ceive", "알아차리다, 인식하다|생각해 내다, 상상하다|속이다", "ceive = 잡다. perception 인식 / concept 개념 / deception 속임"],
+["접두어", "[in]clude|[ex]clude|[pre]clude", "포함하다|제외하다, 배제하다|미리 막다, 불가능하게 하다", "clude = 닫다. preclude A from -ing: A가 ~하지 못하게 하다"],
+["접두어", "[in]spect|[re]spect|[pro]spect", "자세히 검사하다|존중하다; (어떤) 측면|전망, 가능성", "spect = 보다. in some respects 어떤 점에서는 / prospective 장래의"],
+["접두어", "[con]vert|[di]vert|[re]vert", "바꾸다, 전환하다|(방향·주의를) 딴 데로 돌리다|(원래 상태로) 되돌아가다", "vert = 돌리다. convert A into B / revert to ~으로 돌아가다"],
+["어미", "consider[able]|consider[ate]", "(양·정도가) 상당한|(남을) 배려하는", "a considerable amount 상당한 양 / a considerate friend 배려심 있는 친구"],
+["어미", "industr[ial]|industr[ious]", "산업의|부지런한", "industrious = hardworking. 사람의 성격을 말할 때는 industrious"],
+["어미", "sens[ible]|sens[itive]|sens[ory]", "분별 있는, 합리적인|민감한, 예민한|감각의", "be sensitive to ~에 민감하다 / sensory organs 감각 기관"],
+["어미", "respect[ful]|respect[able]|respect[ive]", "존중하는, 공손한|존경할 만한, 괜찮은|각각의", "respectful of ~을 존중하는 / respectively 각각"],
+["어미", "imagin[ary]|imagin[ative]|imagin[able]", "상상 속의, 가상의|상상력이 풍부한|상상할 수 있는", "imaginary는 실제로 없는 것, imaginative는 사람·작품이 가진 능력"],
+["어미", "econom[ic]|econom[ical]", "경제의|(돈·자원을) 아끼는, 알뜰한", "economic growth 경제 성장 / an economical car 연비 좋은 차"],
+["어미", "liter[al]|liter[ary]|liter[ate]", "글자 그대로의|문학의|글을 읽고 쓸 줄 아는", "literally 문자 그대로 / literature 문학 / illiterate 문맹의"],
+["어미", "success[ful]|success[ive]", "성공한, 성공적인|연이은, 잇따른", "successive = consecutive. in succession 연이어"],
+["어미", "comprehens[ive]|comprehens[ible]", "포괄적인, 종합적인|이해할 수 있는", "-ible = ~할 수 있는. comprehend 이해하다"],
+["어미", "[in]valuable|value[less]", "매우 귀중한|가치 없는", "invaluable의 in-은 '아님'이 아니에요. 값을 매길 수 없을 만큼 귀중하다는 뜻 (= priceless)"],
+["전치사", "derive A [from] B|deprive A [of] B", "B에서 A를 얻다, 끌어내다|A에게서 B를 빼앗다", "from은 나온 곳, of는 떼어 냄. be derived from ~에서 유래하다"],
+["전치사", "attribute A [to] B|ascribe A [to] B", "A를 B의 탓·덕으로 돌리다|A를 B의 탓·덕으로 돌리다", "둘 다 to. A is attributed to B처럼 수동태로 자주 나와요"],
+["전치사", "rob A [of] B|rid A [of] B", "A에게서 B를 빼앗다|A에게서 B를 없애다", "빼앗거나 없앨 때는 of. deprive, strip, clear도 같은 모양 / get rid of ~을 없애다"],
+["전치사", "provide A [with] B|provide B [for] A", "A에게 B를 주다|B를 A에게 주다", "with 뒤에는 주는 것, for 뒤에는 받는 사람. supply도 같은 모양"],
+["전치사", "prevent A [from] -ing|keep A [from] -ing", "A가 ~하지 못하게 하다|A가 ~하지 못하게 하다", "stop, prohibit, discourage도 A from -ing"],
+["전치사", "regard A [as] B|think of A [as] B", "A를 B로 여기다|A를 B로 여기다", "see, view, consider도 A as B"],
+["전치사", "substitute A [for] B|replace A [with] B", "B 대신 A를 쓰다|A를 B로 바꾸다", "순서가 반대예요. substitute는 새것이 앞, replace는 원래 것이 앞"],
+["전치사", "distinguish A [from] B|tell A [from] B", "A와 B를 구별하다|A와 B를 구별하다", "distinguish between A and B로도 써요"],
+["전치사", "result [in] B|result [from] B", "B라는 결과를 낳다|B에서 비롯되다", "앞이 원인이면 in, 앞이 결과면 from (개념 2. 연결어 원인-결과 참고)"],
+["전치사", "impose A [on] B|inform A [of] B", "B에게 A를 부과하다|A에게 B를 알리다", "알릴 때는 of: remind, notify도 A of B"],
+["뜻", "r[i]se|r[ai]se|[a]rise|[arou]se", "오르다 (자동사)|올리다, 기르다 (타동사)|생기다, 발생하다|불러일으키다", "rise-rose-risen / raise-raised-raised / arise from ~에서 생기다 (개념 3. 자동사 참고)"],
+["뜻", "l[ie]|l[ay]", "눕다, 있다 (자동사)|놓다, (알을) 낳다 (타동사)", "lie-lay-lain / lay-laid-laid. lie의 과거형 lay와 헷갈리지 않게"],
+["뜻", "object|object[ive]|[sub]jective", "물체; 반대하다|객관적인; 목표|주관적인", "object to -ing ~에 반대하다 / objective ↔ subjective"],
+["뜻", "altern[ate]|altern[ative]", "번갈아 하다, 교대의|대안; 대안이 되는", "alternative energy 대체 에너지 / alternately 번갈아"],
+["뜻", "consc[ious]|consc[ience]|consc[ientious]", "의식하는, 알고 있는|양심|양심적인, 성실한", "be conscious of ~을 의식하다 / consciousness 의식"],
+["뜻", "[con]temporary|temporary", "동시대의, 현대의|일시적인", "con- = 함께 → 같은 시대. temporary ↔ permanent(영구적인)"],
+["뜻", "distinct|distinct[ive]", "뚜렷한, 별개의|독특한, 특징적인", "distinct from ~와 다른 / a distinctive feature 독특한 특징"],
+["뜻", "[ex]tensive|[in]tensive", "넓은, 광범위한|집중적인, 강도 높은", "extensive research 폭넓은 연구 / intensive care 집중 치료"],
+["뜻", "ingen[i]ous|ingen[u]ous", "기발한, 독창적인|순진한 (= naive)", "ingenious의 명사는 ingenuity(기발함)라서 더 헷갈려요"],
+["뜻", "[pre]serve|[con]serve|[re]serve", "보존하다|아껴 쓰다, 보존하다|예약하다, 따로 남겨 두다", "reservation 예약 (핵심어휘 유지 묶음 참고)"]];
+
+
 // ---------- 데이터 정리 ----------
 const WORDS = [];
 const posList = p => p ? p.split(',') : [];
@@ -2045,6 +2131,46 @@ $('#sjSu').addEventListener('change', e => { sjSuOnly = e.target.checked; render
 $('#sjPrint').addEventListener('click', () => window.print());
 $('#sjHide').addEventListener('click', () => { S.hide = !S.hide; save(); renderSj(); });
 
+// ---------- 혼동어휘 ----------
+const CF_GROUPS = [
+  ['철자', '철자가 비슷한 단어', '한두 글자만 달라요. 다른 글자를 눈에 익혀 두세요.'],
+  ['접두어', '앞부분이 다른 단어', '뒷부분(뿌리)은 같고 앞부분이 뜻을 바꿔요.'],
+  ['어미', '끝부분이 다른 형용사', '끝부분에 따라 사람을 꾸미는지, 정도를 말하는지가 달라요.'],
+  ['전치사', '짝을 이루는 전치사', '동사와 함께 다니는 전치사까지 한 덩어리로 외우세요.'],
+  ['뜻', '뜻이 헷갈리는 단어', '생김새도 뜻도 비슷해서 문맥으로 가려야 해요.'],
+];
+let cfGroup = '', cfSpell = false, cfHideM = false;
+$('#cfGroups').innerHTML = [['', '전체'], ...CF_GROUPS.map(([k, t]) => [k, t])].map(([k, t]) => `<button data-g="${k}" class="${k ? '' : 'on'}">${t}</button>`).join('');
+// [ ] 안의 서로 다른 부분을 색으로 (철자 가리기 때는 빈칸)
+const cfWord = w => esc(w).replace(/\[([^\]]+)\]/g, '<span class="cf-d">$1</span>');
+function renderCf() {
+  document.querySelectorAll('#cfGroups button').forEach(b => b.classList.toggle('on', b.dataset.g === cfGroup));
+  $('#cfSpell').classList.toggle('on', cfSpell);
+  $('#cfHide').classList.toggle('on', cfHideM);
+  const list = $('#cfList');
+  list.classList.toggle('spell', cfSpell);
+  list.classList.toggle('hidem', cfHideM);
+  let no = 0;
+  const groups = CF_GROUPS.filter(([k]) => !cfGroup || k === cfGroup);
+  $('#cfCount').textContent = groups.reduce((n, [k]) => n + CF.filter(r => r[0] === k).length, 0) + '쌍';
+  list.innerHTML = CF_GROUPS.map(([k, t, note]) => {
+    const rows = CF.filter(r => r[0] === k).map(([, ws, ms, tip]) => {
+      no++;
+      if (cfGroup && k !== cfGroup) return '';
+      const m = ms.split('|');
+      return `<div class="cf-item"><div class="cf-no">${no}</div><div class="cf-set">${ws.split('|').map((w, i) =>
+        `<div class="cf-row"><span class="cf-w en">${cfWord(w)}</span><span class="cf-m">${esc(m[i])}</span></div>`).join('')}
+        <div class="cf-tip">${esc(tip)}</div></div></div>`;
+    }).join('');
+    return cfGroup && k !== cfGroup ? '' : `<div class="sj-head"><b>${esc(t)}</b> ${esc(note)}</div>${rows}`;
+  }).join('');
+}
+$('#cfGroups').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { cfGroup = b.dataset.g; renderCf(); } });
+$('#cfSpell').addEventListener('click', () => { cfSpell = !cfSpell; renderCf(); });
+$('#cfHide').addEventListener('click', () => { cfHideM = !cfHideM; renderCf(); });
+$('#cfPrint').addEventListener('click', () => window.print());
+$('#cfList').addEventListener('click', e => { const x = e.target.closest('.cf-d, .cf-m'); if (x) x.classList.toggle('show'); });
+
 // ---------- 카드 ----------
 let deck = [], ci = 0, flipped = false;
 function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
@@ -2210,13 +2336,14 @@ function switchTab(t) {
   S.tab = t; save();
   document.body.dataset.tab = t;  // 인쇄할 때 핵심어휘/개념 구분
   document.querySelectorAll('nav.tabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === t));
-  ['sj', 'list', 'card', 'quiz', 'concept'].forEach(k => $('#tab-' + k).hidden = k !== t);
+  ['sj', 'cf', 'list', 'card', 'quiz', 'concept'].forEach(k => $('#tab-' + k).hidden = k !== t);
   // 개념·핵심어휘 탭에는 학습 범위·기록이 필요 없음
-  $('#rangePanel').hidden = $('#foot').hidden = t === 'concept' || t === 'sj';
+  $('#rangePanel').hidden = $('#foot').hidden = t === 'concept' || t === 'sj' || t === 'cf';
   if (t === 'card') { buildDeck(true); renderCard(); }
   if (t === 'quiz') { quiz = null; renderQuizSetup(); }
   if (t === 'list') renderList();
   if (t === 'sj') renderSj();
+  if (t === 'cf') renderCf();
   renderProgress();
 }
 function renderAll() { renderProgress(); if (S.tab === 'list') renderList(); if (S.tab === 'sj') renderSj(); }
